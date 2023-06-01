@@ -1,14 +1,14 @@
 version: '3'
 
 networks:
-  inventory_laravel:
+  cotton_school_laravel:
 
 
 services:
 
   mysql:
     image: mariadb:10.5.8
-    container_name: inventory_mysql
+    container_name: cotton_school_mysql
     restart: unless-stopped
     tty: true
     ports:
@@ -18,10 +18,10 @@ services:
     env_file:
       - .env
     networks:
-      - inventory_laravel
+      - cotton_school_laravel
 
   phpmyadmin:
-    container_name: inventory_admin
+    container_name: cotton_school_admin
     depends_on:
       - mysql
     # image: phpmyadmin/phpmyadmin
@@ -32,13 +32,13 @@ services:
     env_file:
       - .env
     networks:
-      - inventory_laravel
+      - cotton_school_laravel
 
   redis:
     image: redis:alpine
-    container_name: inventory_redis
+    container_name: cotton_school_redis
     restart: unless-stopped
     ports:
       - "6379:6379"
     networks:
-      - inventory_laravel
+      - cotton_school_laravel
