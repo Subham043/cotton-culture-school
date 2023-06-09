@@ -39,6 +39,7 @@
         <!-- JAVASCRIPT -->
         @include('includes.common_script')
 
+        @yield('javascript')
         <!-- App js -->
         <script src="{{ asset('admin/js/app.js') }}"></script>
         <script src="{{ asset('admin/js/main.js') }}"></script>
@@ -189,8 +190,6 @@
                 });
             }
         </script>
-
-        @yield('javascript')
     </body>
 
 

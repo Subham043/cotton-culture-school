@@ -46,6 +46,12 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),route('kid.paginate.get')) !== false ? 'active' : ''}}" href="{{route('kid.paginate.get')}}">
+                                    <i class="ri-user-2-line"></i> <span data-key="t-widgets">Kid</span>
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
                     <!-- Sidebar -->
