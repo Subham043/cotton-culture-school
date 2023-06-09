@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Main\Auth;
+namespace App\Http\Controllers\Parent\Auth;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Services\RateLimitService;
 use Stevebauman\Purify\Facades\Purify;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginPageController extends Controller
 {
     public function index(){
-        return view('admin.pages.auth.login');
+        return view('parent.auth.login');
     }
 
     public function authenticate(Request $request){
@@ -30,13 +31,14 @@ class LoginPageController extends Controller
         ]);
 
         $credentials = Purify::clean($request->only('email', 'password', 'remember'));
+        $credentials['role'] = Role::PARENT->value;
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             (new RateLimitService($request))->clearRateLimit();
-            return redirect()->intended(route('dashboard'))->with('success_status', 'Logged in successfully.');
+            return redirect()->intended(route('parent_dashboard'))->with('success_status', 'Logged in successfully.');
         }
 
-        return redirect(route('signin'))->with('error_status', 'Oops! You have entered invalid credentials');
+        return redirect(route('parent_signin'))->with('error_status', 'Oops! You have entered invalid credentials');
     }
 }

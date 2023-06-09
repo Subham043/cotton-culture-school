@@ -15,7 +15,7 @@ class School extends Model
     protected $fillable = [
         'name',
         'logo',
-        'submission_end_date',
+        'submission_duration',
     ];
 
     protected $casts = [

@@ -37,7 +37,7 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th class="sort" data-sort="customer_name">Name</th>
-                                            <th class="sort" data-sort="customer_name">Submission End Date</th>
+                                            <th class="sort" data-sort="customer_name">Submission Duration</th>
                                             <th class="sort" data-sort="date">Created On</th>
                                             <th class="sort" data-sort="action">Action</th>
                                             </tr>
@@ -46,7 +46,7 @@
                                         @foreach ($data->items() as $item)
                                         <tr>
                                             <td class="customer_name">{{$item->name}}</td>
-                                            <td class="customer_name">{{$item->submission_end_date}}</td>
+                                            <td class="customer_name">{{$item->submission_duration}} days</td>
                                             <td class="date">{{$item->created_at->diffForHumans()}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">

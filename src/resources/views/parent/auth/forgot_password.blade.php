@@ -1,4 +1,4 @@
-@extends('admin.layouts.auth')
+@extends('layouts.parent_auth')
 
 
 
@@ -26,10 +26,10 @@
                     Enter your email and instructions will be sent to you!
                 </div>
                 <div class="p-2">
-                    <form id="forgotPasswordForm" method="post" action="{{route('forgot_password_request')}}">
+                    <form id="forgotPasswordForm" method="post" action="{{route('parent_forgot_password_request')}}">
                     @csrf
                         <div class="mb-4">
-                            @include('admin.includes.input', ['key'=>'email', 'label'=>'Email', 'value'=>old('email')])
+                            @include('includes.input', ['key'=>'email', 'label'=>'Email', 'value'=>old('email')])
                         </div>
 
                         <div class="text-center mt-4">
@@ -43,7 +43,7 @@
         <!-- end card -->
 
         <div class="mt-4 text-center">
-            <p class="mb-0">Wait, I remember my password... <a href="{{route('signin')}}" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
+            <p class="mb-0">Wait, I remember my password... <a href="{{route('parent_signin')}}" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
         </div>
 
     </div>

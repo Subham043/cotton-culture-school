@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Main\Auth;
+namespace App\Http\Controllers\Parent\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,13 +14,14 @@ class ProfilePageController extends Controller
 {
 
     public function index(){
-        return view('admin.pages.profile.index');
+        return view('parent.profile.index');
     }
 
     public function update(Request $req){
         $rules = array(
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email','unique:users,email,'.Auth::user()->id],
+            'phone' => ['required','numeric','unique:users,phone,'.Auth::user()->id],
         );
         $messages = array(
             'name.required' => 'Please enter the name !',

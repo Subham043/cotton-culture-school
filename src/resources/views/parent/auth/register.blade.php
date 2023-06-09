@@ -1,4 +1,4 @@
-@extends('admin.layouts.auth')
+@extends('layouts.parent_auth')
 
 
 
@@ -10,31 +10,34 @@
 
             <div class="card-body p-4">
                 <div class="text-center mt-2">
-                    <h5 class="text-primary">New User ?</h5>
-                    <p class="text-muted">Register with COTTON CULTURE.</p>
+                    <h5 class="text-primary">Registration !</h5>
+                    <p class="text-muted">Sign up to continue with COTTON CULTURE.</p>
                 </div>
                 <div class="p-2 mt-4">
-                    <form id="loginForm" method="post" action="{{route('signup_store')}}">
+                    <form id="loginForm" method="post" action="{{route('parent_register_post')}}">
                     @csrf
                         <div class="mb-3">
-                            @include('admin.includes.input', ['key'=>'name', 'label'=>'Name', 'value'=>old('name')])
+                            @include('includes.input', ['key'=>'name', 'label'=>'Name', 'value'=>old('name')])
                         </div>
 
                         <div class="mb-3">
-                            @include('admin.includes.input', ['key'=>'email', 'label'=>'Email', 'value'=>old('email')])
+                            @include('includes.input', ['key'=>'email', 'label'=>'Email', 'value'=>old('email')])
                         </div>
 
                         <div class="mb-3">
-                            @include('admin.includes.password_input', ['key'=>'password', 'label'=>'Password', 'value'=>''])
+                            @include('includes.input', ['key'=>'phone', 'label'=>'Phone', 'value'=>old('phone')])
                         </div>
 
                         <div class="mb-3">
-                            @include('admin.includes.password_input', ['key'=>'cpassword', 'label'=>'Confirm Password', 'value'=>''])
+                            @include('includes.password_input', ['key'=>'password', 'label'=>'Password', 'value'=>''])
+                        </div>
+
+                        <div class="mb-3">
+                            @include('includes.password_input', ['key'=>'confirm_password', 'label'=>'Password', 'value'=>''])
                         </div>
 
                         <div class="mt-4">
-                            <button class="btn btn-success w-100" type="submit">Sign Up</button>
-                            <p class="mt-3">Already have an account? <a href="{{route('signin')}}" class="text-muted">Sign In</a></p>
+                            <button class="btn btn-success w-100" type="submit">Sign up</button>
                         </div>
 
                     </form>
@@ -43,6 +46,10 @@
             <!-- end card body -->
         </div>
         <!-- end card -->
+
+        <div class="mt-4 text-center">
+            <p class="mb-0">Wait, I already have an account... <a href="{{route('parent_signin')}}" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
+        </div>
 
     </div>
 </div>
@@ -60,12 +67,6 @@ const validation = new JustValidate('#loginForm', {
 });
 // apply rules to form fields
 validation
-.addField('#name', [
-    {
-      rule: 'required',
-      errorMessage: 'Name is required',
-    },
-  ])
   .addField('#email', [
     {
       rule: 'required',
@@ -80,28 +81,25 @@ validation
     {
       rule: 'required',
       errorMessage: 'Password is required',
-    },
-    {
-      rule: 'strongPassword',
-    },
+    }
   ])
-  .addField('#cpassword', [
+  .addField('#confirm_password', [
     {
       rule: 'required',
       errorMessage: 'Confirm Password is required',
-    },
+    }
+  ])
+  .addField('#name', [
     {
-        validator: (value, fields) => {
-        if (fields['#password'] && fields['#password'].elem) {
-            const repeatPasswordValue = fields['#password'].elem.value;
-
-            return value === repeatPasswordValue;
-        }
-
-        return true;
-        },
-        errorMessage: 'Password and Confirm Password must be same',
-    },
+      rule: 'required',
+      errorMessage: 'Name is required',
+    }
+  ])
+  .addField('#phone', [
+    {
+      rule: 'required',
+      errorMessage: 'Phone is required',
+    }
   ])
   .onSuccess((event) => {
     event.target.submit();

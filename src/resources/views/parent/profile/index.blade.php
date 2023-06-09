@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('layouts.parent_dashboard')
 
 
 
@@ -39,15 +39,22 @@
                             <div class="tab-pane active" id="personalDetails" role="tabpanel">
                                 <form action="javascript:void(0);" id="profileForm">
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Name</label>
                                                 <input type="text" class="form-control" id="name"
-                                                    placeholder="Enter your firstname" value="{{Auth::user()->name}}">
+                                                    placeholder="Enter your name" value="{{Auth::user()->name}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="phone" class="form-label">Phone</label>
+                                                <input type="text" class="form-control" id="phone"
+                                                    placeholder="Enter your phone" value="{{Auth::user()->phone}}">
                                             </div>
                                         </div>
                                         <!--end col-->
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email
                                                     Address</label>
@@ -168,9 +175,10 @@ validation
     try {
         var formData = new FormData();
         formData.append('name',document.getElementById('name').value)
+        formData.append('phone',document.getElementById('phone').value)
         formData.append('email',document.getElementById('email').value)
         formData.append('refreshUrl','{{URL::current()}}')
-        const response = await axios.post('{{route('profile_update')}}', formData)
+        const response = await axios.post('{{route('parent_profile_update')}}', formData)
         successToast(response.data.message)
         setTimeout(function(){
             location.reload();
@@ -181,6 +189,9 @@ validation
         }
         if(error?.response?.data?.errors?.email){
             errorToast(error?.response?.data?.errors?.email[0])
+        }
+        if(error?.response?.data?.errors?.phone){
+            errorToast(error?.response?.data?.errors?.phone[0])
         }
     }finally{
         submitBtn.innerHTML =  `
@@ -247,7 +258,7 @@ validationPassword
         formData.append('password',document.getElementById('password').value)
         formData.append('cpassword',document.getElementById('cpassword').value)
         formData.append('refreshUrl','{{URL::current()}}')
-        const response = await axios.post('{{route('profile_password_update')}}', formData)
+        const response = await axios.post('{{route('parent_profile_password_update')}}', formData)
         successToast(response.data.message)
     }catch (error){
         if(error?.response?.data?.errors?.opassword){

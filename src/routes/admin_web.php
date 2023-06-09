@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\LoginPageController;
 use App\Http\Controllers\Admin\Auth\LogoutPageController;
 use App\Http\Controllers\Admin\Auth\ForgotPasswordPageController;
-use App\Http\Controllers\Admin\Auth\ResetPasswordPageController;
 use App\Http\Controllers\Admin\Auth\ProfilePageController;
-use App\Http\Controllers\Admin\Auth\VerifyRegisteredUserController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Academic\SchoolClassController;
 use App\Http\Controllers\Admin\Academic\ClassController;
@@ -19,34 +17,11 @@ use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Product\ProductImageController;
 use App\Http\Controllers\Admin\Product\ProductSpecificationController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware(['guest'])->group(function () {
     Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
     Route::post('/sign-in', [LoginPageController::class, 'authenticate', 'as' => 'login.authenticate'])->name('signin_authenticate');
     Route::get('/forgot-password', [ForgotPasswordPageController::class, 'index', 'as' => 'forgot_password.index'])->name('forgot_password');
     Route::post('/forgot-password', [ForgotPasswordPageController::class, 'requestForgotPassword', 'as' => 'forgot_password.requestForgotPassword'])->name('forgot_password_request');
-    Route::get('/reset-password/{token}', [ResetPasswordPageController::class, 'index', 'as' => 'reset_password.index'])->name('reset_password')->middleware('signed');
-    Route::post('/reset-password/{token}', [ResetPasswordPageController::class, 'requestResetPassword', 'as' => 'reset_password.requestResetPassword'])->name('reset_password_request')->middleware('signed');
-});
-
-Route::prefix('/email/verify')->middleware(['auth'])->group(function () {
-    Route::get('/', [VerifyRegisteredUserController::class, 'index', 'as' => 'index'])->name('verification.notice');
-    Route::post('/resend-notification', [VerifyRegisteredUserController::class, 'resend_notification', 'as' => 'resend_notification'])->middleware(['throttle:6,1'])->name('verification.send');
-    Route::get('/{id}/{hash}', [VerifyRegisteredUserController::class, 'verify_email', 'as' => 'verify_email'])->middleware(['signed'])->name('verification.verify');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

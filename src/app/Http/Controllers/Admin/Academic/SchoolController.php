@@ -112,7 +112,7 @@ class SchoolCreateRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'submission_end_date' => ['required', 'date'],
+            'submission_duration' => ['required', 'numeric'],
             'logo' => 'required|image|max:500',
         ];
     }
@@ -141,7 +141,7 @@ class SchoolUpdateRequest extends SchoolCreateRequest
     {
         return [
             'name' => ['required'],
-            'submission_end_date' => ['required', 'date'],
+            'submission_duration' => ['required', 'numeric'],
             'logo' => 'nullable|image|max:500',
         ];
     }

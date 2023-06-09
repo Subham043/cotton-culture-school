@@ -1,4 +1,4 @@
-@extends('admin.layouts.auth')
+@extends('layouts.parent_auth')
 
 
 
@@ -11,20 +11,20 @@
             <div class="card-body p-4">
                 <div class="text-center mt-2">
                     <h5 class="text-primary">Welcome Back !</h5>
-                    <p class="text-muted">Sign in to continue to COTTON CULTURE Admin Panel.</p>
+                    <p class="text-muted">Sign in to continue to COTTON CULTURE.</p>
                 </div>
                 <div class="p-2 mt-4">
-                    <form id="loginForm" method="post" action="{{route('signin_authenticate')}}">
+                    <form id="loginForm" method="post" action="{{route('parent_signin_authenticate')}}">
                     @csrf
                         <div class="mb-3">
-                            @include('admin.includes.input', ['key'=>'email', 'label'=>'Email', 'value'=>old('email')])
+                            @include('includes.input', ['key'=>'email', 'label'=>'Email', 'value'=>old('email')])
                         </div>
 
                         <div class="mb-3">
                             <div class="float-end">
-                                <a href="{{route('forgot_password')}}" class="text-muted">Forgot password?</a>
+                                <a href="{{route('parent_forgot_password')}}" class="text-muted">Forgot password?</a>
                             </div>
-                            @include('admin.includes.password_input', ['key'=>'password', 'label'=>'Password', 'value'=>''])
+                            @include('includes.password_input', ['key'=>'password', 'label'=>'Password', 'value'=>''])
                         </div>
 
                         <div class="form-check">
@@ -34,7 +34,6 @@
 
                         <div class="mt-4">
                             <button class="btn btn-success w-100" type="submit">Sign In</button>
-                            <p class="mt-3">Don't have an account? <a href="{{route('signup')}}" class="text-muted">Register Now</a></p>
                         </div>
 
                     </form>
@@ -43,6 +42,10 @@
             <!-- end card body -->
         </div>
         <!-- end card -->
+
+        <div class="mt-4 text-center">
+            <p class="mb-0">Don't have an account? <a href="{{route('parent_register')}}" class="fw-semibold text-primary text-decoration-underline"> Sign Up </a> </p>
+        </div>
 
     </div>
 </div>

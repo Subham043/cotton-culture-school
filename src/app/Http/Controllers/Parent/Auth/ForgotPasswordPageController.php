@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Main\Auth;
+namespace App\Http\Controllers\Parent\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Services\RateLimitService;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Password;
 class ForgotPasswordPageController extends Controller
 {
     public function index(){
-        return view('admin.pages.auth.forgot_password');
+        return view('parent.auth.forgot_password');
     }
 
     public function requestForgotPassword(Request $request) {
@@ -26,9 +26,9 @@ class ForgotPasswordPageController extends Controller
         );
         if($status === Password::RESET_LINK_SENT){
             (new RateLimitService($request))->clearRateLimit();
-            return redirect(route('forgot_password'))->with(['success_status' => __($status)]);
+            return redirect(route('parent_forgot_password'))->with(['success_status' => __($status)]);
         }
-        return redirect(route('forgot_password'))->with(['error_status' => __($status)]);
+        return redirect(route('parent_forgot_password'))->with(['error_status' => __($status)]);
 
     }
 }

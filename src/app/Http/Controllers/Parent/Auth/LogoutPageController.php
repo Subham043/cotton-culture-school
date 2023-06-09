@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Main\Auth;
+namespace App\Http\Controllers\Parent\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,6 +15,6 @@ class LogoutPageController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect(route('signin'));
+        return redirect(route('parent_signin'));
     }
 }

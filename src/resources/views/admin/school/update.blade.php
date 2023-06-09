@@ -26,7 +26,7 @@
                                         @include('includes.input', ['key'=>'name', 'label'=>'Name', 'value'=>$data->name])
                                     </div>
                                     <div class="col-xxl-4 col-md-4">
-                                        @include('includes.date_input', ['key'=>'submission_end_date', 'label'=>'Submission End Date', 'value'=>$data->submission_end_date])
+                                        @include('includes.select', ['key'=>'submission_duration', 'label'=>'Submission Duration', 'value'=>$data->submission_duration])
                                     </div>
                                     <div class="col-xxl-4 col-md-4">
                                         @include('includes.file_input', ['key'=>'logo', 'label'=>'Logo'])
@@ -62,7 +62,7 @@
 
 
 @section('javascript')
-
+<script src="{{ asset('admin/js/pages/choices.min.js') }}"></script>
 <script type="text/javascript">
     const myViewer = new ImgPreviewer('#image-container',{
       // aspect ratio of image
@@ -101,7 +101,7 @@ validation
       errorMessage: 'Name is required',
     },
   ])
-  .addField('#submission_end_date', [
+  .addField('#submission_duration', [
     {
       rule: 'required',
       errorMessage: 'Submission End Date is required',
@@ -134,6 +134,24 @@ validation
     event.target.submit();
   });
 
+  const submissionChoice = new Choices('#submission_duration', {
+        choices: [
+            {
+                value: '',
+                label: 'Select submission duration (in days)',
+                disabled: true,
+            },
+            @for($i=1; $i<=60; $i++)
+                {
+                    value: '{{$i}}',
+                    label: '{{$i}}',
+                    selected: {{($data->submission_duration==$i) ? 'true' : 'false'}},
+                },
+            @endfor
+        ],
+        placeholderValue: 'Select submission duration (in days)',
+        ...CHOICE_CONFIG
+    });
 </script>
 
 @stop

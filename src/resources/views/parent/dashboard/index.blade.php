@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('layouts.parent_dashboard')
 
 
 @section('content')
@@ -6,7 +6,7 @@
 <div class="page-content">
     <div class="container-fluid">
 
-        @include('admin.includes.breadcrumb', ['page'=>'Dashboard', 'page_link'=>route('dashboard'), 'list'=>['COTTON CULTURE']])
+        @include('includes.breadcrumb', ['page'=>'Dashboard', 'page_link'=>route('parent_dashboard'), 'list'=>['COTTON CULTURE']])
 
         <div class="row project-wrapper">
             <div class="col-xxl-12">
