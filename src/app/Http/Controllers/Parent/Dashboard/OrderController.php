@@ -262,6 +262,33 @@ class OrderController extends Controller
         return redirect()->back()->with('success_status', 'Order cancelled successfully.');
 
     }
+
+    public function edit_order($id){
+
+        $order_detail = OrderUnit::with(['product', 'kid'])->latest()->findOrFail($id);
+        $cart = Cart::with(['product'])->where('user_id', auth()->user()->id)->latest()->get();
+        $cart_total = $cart->reduce(function ($total, $item) {
+            return $total + $item->cart_quantity_price;
+        },0);
+
+        return view('parent.order.order_edit')->with([
+            'order_detail' => $order_detail,
+            'cart' => $cart,
+            'cart_total' => $cart_total,
+        ]);
+    }
+
+    public function update_order(OrderItemUpdateRequest $request, $id)
+    {
+        $order_detail = OrderUnit::with(['product', 'kid'])->latest()->findOrFail($id);
+        $order_detail->update([
+            'units' => json_encode($request->units),
+        ]);
+
+        return response()->json([
+            'message' => 'Order Item updated successfully.'
+        ], 200);
+    }
 }
 
 class OrderRequest extends FormRequest
@@ -316,6 +343,33 @@ class VerifyPaymentRequest extends FormRequest
             'razorpay_order_id' => ['required', 'string', 'exists:orders,razorpay_order_id'],
             'razorpay_payment_id' => ['required', 'string'],
             'razorpay_signature' => ['required', 'string'],
+        ];
+    }
+
+}
+
+class OrderItemUpdateRequest extends FormRequest
+{
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return Auth::check();
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'units' => 'required',
         ];
     }
 

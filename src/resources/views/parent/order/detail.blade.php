@@ -48,14 +48,14 @@
                                                 <th scope="col">Item Price</th>
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col" class="text-end">Total Amount</th>
-                                                <th scope="col" class="text-end">Action</th>
+                                                <th scope="col" class="text-end">Edit Size</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($data->orderItems as $k => $v)
                                             <tr>
                                                 <td>
-                                                    <div class="d-flex">
+                                                    <div class="d-flex flex-wrap">
                                                         <div class="flex-shrink-0 avatar-md bg-light rounded p-1">
                                                             <img src="{{$v->product->featured_image_link}}" alt="" class="img-fluid d-block">
                                                         </div>
@@ -65,6 +65,17 @@
                                                             <p class="text-muted mb-0">School: <span class="fw-medium">{{$v->product->schoolAndclass->school->name}}</span></p>
                                                             <p class="text-muted mb-0">Class: <span class="fw-medium">{{$v->product->schoolAndclass->class->name}}</span></p>
                                                         </div>
+                                                        <div class="col-12 mt-2">
+                                                            <p>
+                                                                <code>
+                                                                    Note :
+                                                                </code>
+                                                                Last date to update the size for the above item  -
+                                                                <b>
+                                                                    {{$data->created_at->addDays($v->product->schoolAndclass->school->submission_duration)->format('M d, Y - h:m a')}}
+                                                                </b>
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td>&#8377; {{$v->product->price}}</td>
@@ -72,12 +83,15 @@
                                                 <td class="fw-medium text-end">
                                                     &#8377; {{$v->cart_quantity_price}}
                                                 </td>
+                                                <td class="text-end">
+                                                    <a href="{{route('parent_edit_order', $v->id)}}" class="btn btn-sm btn-warning edit-item-btn"><i class="ri-pencil-fill text-white align-bottom"></i></a>
+                                                </td>
                                             </tr>
                                             @endforeach
 
                                             <tr class="border-top border-top-dashed">
                                                 <th>
-                                                    Total (USD) :
+                                                    Total :
                                                 </th>
                                                 <td colspan="2"></td>
                                                 <th class="text-end">&#8377; {{$data->total_amount}}</th>

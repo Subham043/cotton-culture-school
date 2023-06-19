@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Parent\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,13 @@ class ProfilePageController extends Controller
 {
 
     public function index(){
-        return view('parent.profile.index');
+        $cart = Cart::with(['product'])->where('user_id', auth()->user()->id)->latest()->get();
+        $cart_total = $cart->reduce(function ($total, $item) {
+            return $total + $item->cart_quantity_price;
+        },0);
+        return view('parent.profile.index', compact([
+            'cart', 'cart_total'
+        ]));
     }
 
     public function update(Request $req){

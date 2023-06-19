@@ -46,6 +46,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/make-payment/{id}', [OrderController::class, 'make_payment', 'as' => 'parent.order.make_payment'])->name('order.make_payment.get');
         Route::post('/verify-payment/{id}', [OrderController::class, 'verify_payment', 'as' => 'parent.order.verify_payment'])->name('order.verify_payment.get');
         Route::get('/cancel-order/{id}', [OrderController::class, 'cancel_order', 'as' => 'parent.order.cancel_order'])->name('order.cancel.get');
+        Route::get('/edit-item-size/{id}', [OrderController::class, 'edit_order', 'as' => 'parent.edit_order'])->name('parent_edit_order');
+        Route::post('/update-item-size/{id}', [OrderController::class, 'update_order', 'as' => 'parent.update_order'])->name('parent_update_order');
         Route::post('/place', [OrderController::class, 'place_order', 'as' => 'parent.place_order'])->name('parent_place_order');
     });
 
