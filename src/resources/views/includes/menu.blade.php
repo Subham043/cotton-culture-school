@@ -69,6 +69,9 @@
                                             <a href="{{route('category.paginate.get')}}" class="nav-link {{strpos(url()->current(), route('category.paginate.get')) !== false ? 'active' : ''}}" data-key="t-analytics"> Category </a>
                                         </li>
                                         <li class="nav-item">
+                                            <a href="{{route('unit.paginate.get')}}" class="nav-link {{strpos(url()->current(), route('unit.paginate.get')) !== false ? 'active' : ''}}" data-key="t-analytics"> Unit/Metrics </a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a href="{{route('product.paginate.get')}}" class="nav-link {{strpos(url()->current(), route('product.paginate.get')) !== false ? 'active' : ''}}" data-key="t-analytics"> Items </a>
                                         </li>
 

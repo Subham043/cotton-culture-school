@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryUnit extends Model
+class Unit extends Model
 {
     use HasFactory;
 
-    protected $table = 'category_unit_fields';
+    protected $table = 'unit_fields';
 
     protected $fillable = [
         'unit_title',
-        'category_id',
     ];
 
     protected $casts = [
@@ -21,8 +20,8 @@ class CategoryUnit extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function category()
+    public function units()
     {
-        return $this->belongsTo(Category::class, 'category_id')->withDefault();
+        return $this->belongsToMany(Product::class, 'product_units', 'unit_field_id', 'product_id');
     }
 }

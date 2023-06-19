@@ -19,6 +19,7 @@ class ProductExport implements FromCollection,WithHeadings,WithMapping
             'Price',
             'Category',
             'School/Class',
+            'Gender',
             'Created_at',
             'Updated_at'
         ];
@@ -31,6 +32,7 @@ class ProductExport implements FromCollection,WithHeadings,WithMapping
              $data->price,
              $data->category->name,
              $data->schoolAndclass->school->name.' / '.$data->schoolAndclass->class->name,
+             $data->gender->value,
              $data->created_at,
              $data->updated_at,
          ];

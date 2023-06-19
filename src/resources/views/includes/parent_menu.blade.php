@@ -52,6 +52,12 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),route('order.paginate.get')) !== false ? 'active' : ''}}" href="{{route('order.paginate.get')}}">
+                                    <i class="bx bx-shopping-bag"></i> <span data-key="t-widgets">Order</span>
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
                     <!-- Sidebar -->

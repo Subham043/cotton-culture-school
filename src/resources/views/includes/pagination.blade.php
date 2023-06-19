@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-center">
         <div class="pagination-wrap hstack gap-2">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())

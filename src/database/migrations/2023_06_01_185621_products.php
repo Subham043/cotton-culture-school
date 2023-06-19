@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Gender;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,8 @@ return new class extends Migration
             $table->text('brief_description')->nullable();
             $table->text('detailed_description')->nullable();
             $table->text('detailed_description_unfiltered')->nullable();
+            $table->string('gender', 500)->default(Gender::MALE->value);
+            $table->string('youtube_video_id', 500)->nullable();
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->foreignId('school_class_id')->nullable()->constrained('school_classes')->nullOnDelete();
             $table->timestamps();

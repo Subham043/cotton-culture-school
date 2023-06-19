@@ -22,11 +22,8 @@
                         <div class="card-body">
                             <div class="live-preview">
                                 <div class="row gy-4">
-                                    <div class="col-xxl-6 col-md-6">
+                                    <div class="col-xxl-12 col-md-12">
                                         @include('includes.input', ['key'=>'name', 'label'=>'Name', 'value'=>$data->name])
-                                    </div>
-                                    <div class="col-xxl-6 col-md-6">
-                                        @include('includes.select', ['key'=>'gender', 'label'=>'Gender'])
                                     </div>
 
                                     <div class="col-xxl-12 col-md-12">
@@ -56,7 +53,6 @@
 
 
 @section('javascript')
-<script src="{{ asset('admin/js/pages/choices.min.js') }}"></script>
 
 <script type="text/javascript">
 
@@ -72,30 +68,9 @@ validation
       errorMessage: 'Name is required',
     },
   ])
-  .addField('#gender', [
-    {
-      rule: 'required',
-      errorMessage: 'Gender is required',
-    },
-  ])
   .onSuccess(async (event) => {
     event.target.submit();
   });
-
-
-  const genderChoice = new Choices('#gender', {
-        choices: [
-            @foreach($genders as $val)
-                {
-                    value: '{{$val}}',
-                    label: '{{$val}}',
-                    selected: {{($data->gender->value==$val) ? 'true' : 'false'}},
-                },
-            @endforeach
-        ],
-        placeholderValue: 'Select a gender',
-        ...CHOICE_CONFIG
-    });
 </script>
 
 @stop

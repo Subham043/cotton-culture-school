@@ -64,7 +64,6 @@
 <script src="{{ asset('admin/js/pages/choices.min.js') }}"></script>
 
 <script type="text/javascript">
-
 // initialize the validation library
 const validation = new JustValidate('#countryForm', {
       errorFieldCssClass: 'is-invalid',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Parent\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\Cart;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,17 @@ use Illuminate\Support\Facades\Auth;
 class AddressController extends Controller
 {
     protected function query(){
-        return Address::latest();
+        return Address::where('user_id', auth()->user()->id)->latest();
+    }
+
+    protected function cart(){
+        return Cart::with(['product'])->where('user_id', auth()->user()->id)->latest()->get();
+    }
+
+    protected function cart_total(){
+        return $this->cart()->reduce(function ($total, $item) {
+            return $total + $item->cart_quantity_price;
+        },0);
     }
 
     public function index(Request $request){
@@ -29,12 +40,19 @@ class AddressController extends Controller
         }
 
         $data = $data->paginate(10);
-        return view('parent.address.paginate')->with('data', $data);
+        return view('parent.address.paginate')->with([
+            'data'=> $data,
+            'cart'=> $this->cart(),
+            'cart_total'=> $this->cart_total(),
+        ]);
     }
 
     public function create() {
 
-        return view('parent.address.create');
+        return view('parent.address.create')->with([
+            'cart'=> $this->cart(),
+            'cart_total'=> $this->cart_total(),
+        ]);
     }
 
     public function store(AddressRequest $req) {
@@ -49,7 +67,11 @@ class AddressController extends Controller
 
     public function edit($id) {
         $data = $this->query()->findOrFail($id);
-        return view('parent.address.update')->with('data',$data);
+        return view('parent.address.update')->with([
+            'data'=> $data,
+            'cart'=> $this->cart(),
+            'cart_total'=> $this->cart_total(),
+        ]);
     }
 
     public function update(AddressRequest $req, $id) {

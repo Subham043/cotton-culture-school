@@ -16,7 +16,6 @@ class CategoryExport implements FromCollection,WithHeadings,WithMapping
         return[
             'Id',
             'Name',
-            'Gender',
             'Created_at',
             'Updated_at'
         ];
@@ -26,7 +25,6 @@ class CategoryExport implements FromCollection,WithHeadings,WithMapping
          return[
              $data->id,
              $data->name,
-             $data->gender->value,
              $data->created_at,
              $data->updated_at,
          ];

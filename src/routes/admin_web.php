@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\Academic\ClassController;
 use App\Http\Controllers\Admin\Academic\SchoolController;
 use App\Http\Controllers\Admin\Academic\SectionController;
 use App\Http\Controllers\Admin\Product\CategoryController;
-use App\Http\Controllers\Admin\Product\CategoryUnitController;
+use App\Http\Controllers\Admin\Product\UnitController;
 use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Product\ProductImageController;
 use App\Http\Controllers\Admin\Product\ProductSpecificationController;
@@ -80,15 +80,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/edit/{id}', [CategoryController::class, 'edit', 'as' => 'admin.category.edit'])->name('category.update.get');
             Route::post('/edit/{id}', [CategoryController::class, 'update', 'as' => 'admin.category.update'])->name('category.update.post');
             Route::get('/delete/{id}', [CategoryController::class, 'delete', 'as' => 'admin.category.delete'])->name('category.delete.get');
-            Route::prefix('/{category_id}/unit')->group(function () {
-                Route::get('/', [CategoryUnitController::class, 'index', 'as' => 'admin.category_unit.view'])->name('category_unit.paginate.get');
-                Route::get('/create', [CategoryUnitController::class, 'create', 'as' => 'admin.category_unit.create'])->name('category_unit.create.get');
-                Route::post('/create', [CategoryUnitController::class, 'store', 'as' => 'admin.category_unit.store'])->name('category_unit.create.post');
-                Route::get('/excel', [CategoryUnitController::class, 'excel', 'as' => 'admin.category_unit.excel'])->name('category_unit.excel.get');
-                Route::get('/edit/{id}', [CategoryUnitController::class, 'edit', 'as' => 'admin.category_unit.edit'])->name('category_unit.update.get');
-                Route::post('/edit/{id}', [CategoryUnitController::class, 'update', 'as' => 'admin.category_unit.update'])->name('category_unit.update.post');
-                Route::get('/delete/{id}', [CategoryUnitController::class, 'delete', 'as' => 'admin.category_unit.delete'])->name('category_unit.delete.get');
-            });
+        });
+        Route::prefix('/unit')->group(function () {
+            Route::get('/', [UnitController::class, 'index', 'as' => 'admin.unit.view'])->name('unit.paginate.get');
+            Route::get('/create', [UnitController::class, 'create', 'as' => 'admin.unit.create'])->name('unit.create.get');
+            Route::post('/create', [UnitController::class, 'store', 'as' => 'admin.unit.store'])->name('unit.create.post');
+            Route::get('/excel', [UnitController::class, 'excel', 'as' => 'admin.unit.excel'])->name('unit.excel.get');
+            Route::get('/edit/{id}', [UnitController::class, 'edit', 'as' => 'admin.unit.edit'])->name('unit.update.get');
+            Route::post('/edit/{id}', [UnitController::class, 'update', 'as' => 'admin.unit.update'])->name('unit.update.post');
+            Route::get('/delete/{id}', [UnitController::class, 'delete', 'as' => 'admin.unit.delete'])->name('unit.delete.get');
         });
         Route::prefix('/item')->group(function () {
             Route::get('/', [ProductController::class, 'index', 'as' => 'admin.product.view'])->name('product.paginate.get');

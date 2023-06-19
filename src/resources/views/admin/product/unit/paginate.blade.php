@@ -8,14 +8,14 @@
     <div class="container-fluid">
 
         <!-- start page title -->
-        @include('includes.breadcrumb', ['page'=>'Category Unit', 'page_link'=>route('category_unit.paginate.get', $category_id), 'list'=>['List']])
+        @include('includes.breadcrumb', ['page'=>'Unit', 'page_link'=>route('unit.paginate.get'), 'list'=>['List']])
         <!-- end page title -->
 
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Category Unit</h4>
+                        <h4 class="card-title mb-0">Unit</h4>
                     </div><!-- end card header -->
 
                     <div class="card-body">
@@ -23,11 +23,11 @@
                             <div class="row g-4 mb-3">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <a href="{{route('category_unit.create.get', $category_id)}}" type="button" class="btn btn-success add-btn" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
+                                        <a href="{{route('unit.create.get')}}" type="button" class="btn btn-success add-btn" id="create-btn"><i class="ri-add-line align-bottom me-1"></i> Create</a>
                                     </div>
                                 </div>
                                 <div class="col-sm">
-                                    @include('includes.search_list', ['link'=>route('category_unit.paginate.get', $category_id), 'search'=>request()->input('search')])
+                                    @include('includes.search_list', ['link'=>route('unit.paginate.get'), 'search'=>request()->input('search')])
                                 </div>
                             </div>
                             <div class="table-responsive table-card mt-3 mb-1">
@@ -48,11 +48,11 @@
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
-                                                        <a href="{{route('category_unit.update.get', [$category_id, $item->id])}}" class="btn btn-sm btn-primary edit-item-btn">Edit</a>
+                                                        <a href="{{route('unit.update.get', $item->id)}}" class="btn btn-sm btn-primary edit-item-btn">Edit</a>
                                                     </div>
 
                                                     <div class="remove">
-                                                        <button class="btn btn-sm btn-danger remove-item-btn" data-link="{{route('category_unit.delete.get', [$category_id, $item->id])}}">Delete</button>
+                                                        <button class="btn btn-sm btn-danger remove-item-btn" data-link="{{route('unit.delete.get', $item->id)}}">Delete</button>
                                                     </div>
                                                 </div>
                                             </td>

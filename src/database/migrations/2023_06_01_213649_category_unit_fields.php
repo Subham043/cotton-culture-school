@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category_unit_fields', function (Blueprint $table) {
+        Schema::create('unit_fields', function (Blueprint $table) {
             $table->id();
             $table->string('unit_title');
-            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category_unit_fields');
+        Schema::dropIfExists('unit_fields');
     }
 };

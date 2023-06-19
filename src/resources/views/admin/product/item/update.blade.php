@@ -29,23 +29,32 @@
                         <div class="card-body">
                             <div class="live-preview">
                                 <div class="row gy-4">
-                                    <div class="col-xxl-4 col-md-4">
+                                    <div class="col-xxl-3 col-md-3">
                                         @include('includes.input', ['key'=>'name', 'label'=>'Name', 'value'=>$data->name])
                                     </div>
-                                    <div class="col-xxl-4 col-md-4">
+                                    <div class="col-xxl-3 col-md-3">
                                         @include('includes.input', ['key'=>'price', 'label'=>'Price', 'value'=>$data->price])
                                     </div>
-                                    <div class="col-xxl-4 col-md-4">
+                                    <div class="col-xxl-3 col-md-3">
                                         @include('includes.file_input', ['key'=>'featured_image', 'label'=>'Featured Image'])
                                         @if(!empty($data->featured_image_link))
                                             <img src="{{$data->featured_image_link}}" alt="" class="img-preview">
                                         @endif
                                     </div>
-                                    <div class="col-xxl-6 col-md-6">
+                                    <div class="col-xxl-3 col-md-3">
+                                        @include('includes.input', ['key'=>'youtube_video_id', 'label'=>'Youtube Video ID (Size Reference)', 'value'=>$data->youtube_video_id])
+                                    </div>
+                                    <div class="col-xxl-3 col-md-3">
+                                        @include('includes.select', ['key'=>'gender', 'label'=>'Gender'])
+                                    </div>
+                                    <div class="col-xxl-3 col-md-3">
                                         @include('includes.select', ['key'=>'category_id', 'label'=>'Category'])
                                     </div>
-                                    <div class="col-xxl-6 col-md-6">
+                                    <div class="col-xxl-3 col-md-3">
                                         @include('includes.select', ['key'=>'school_class_id', 'label'=>'School/Class'])
+                                    </div>
+                                    <div class="col-xxl-3 col-md-3">
+                                        @include('includes.select_multiple', ['key'=>'unit_field_id', 'label'=>'Units/Metrics'])
                                     </div>
                                     <div class="col-xxl-12 col-md-12">
                                         @include('includes.textarea', ['key'=>'brief_description', 'label'=>'Brief Description', 'value'=>$data->brief_description])
@@ -166,6 +175,24 @@ validation
       errorMessage: 'School/Class is required',
     },
   ])
+  .addField('#unit_field_id', [
+    {
+      rule: 'required',
+      errorMessage: 'Units/Metrics is required',
+    },
+  ])
+  .addField('#youtube_video_id', [
+    {
+      rule: 'required',
+      errorMessage: 'Youtube Video Id is required',
+    },
+  ])
+  .addField('#gender', [
+    {
+      rule: 'required',
+      errorMessage: 'Gender is required',
+    },
+  ])
   .addField('#featured_image', [
     {
         rule: 'minFilesCount',
@@ -203,7 +230,7 @@ validation
             @foreach($categories as $val)
                 {
                     value: '{{$val->id}}',
-                    label: '{{$val->name}} - {{$val->gender}}',
+                    label: '{{$val->name}}',
                     selected: {{($data->category_id==$val->id) ? 'true' : 'false'}},
                 },
             @endforeach
@@ -229,6 +256,36 @@ validation
         ],
         placeholderValue: 'Select a school/class',
         ...CHOICE_CONFIG
+    });
+
+    const genderChoice = new Choices('#gender', {
+        choices: [
+            @foreach($genders as $val)
+                {
+                    value: '{{$val}}',
+                    label: '{{$val}}',
+                    selected: {{($data->gender->value==$val) ? 'true' : 'false'}},
+                },
+            @endforeach
+        ],
+        placeholderValue: 'Select a gender',
+        ...CHOICE_CONFIG
+    });
+
+    const unitChoice = new Choices('#unit_field_id', {
+        choices: [
+            @foreach($units as $unit)
+                {
+                    value: '{{$unit->id}}',
+                    label: '{{$unit->unit_title}}',
+                    selected: {{ (in_array($unit->id, $unit_data)) ? 'true' : 'false'}}
+                },
+            @endforeach
+        ],
+        placeholderValue: 'Select units/metrics',
+        ...CHOICE_CONFIG,
+        shouldSort: false,
+        shouldSortItems: false,
     });
 
 </script>

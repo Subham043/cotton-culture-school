@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,11 +22,14 @@ class Product extends Model
         'detailed_description_unfiltered',
         'category_id',
         'school_class_id',
+        'youtube_video_id',
+        'gender',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'gender' => Gender::class,
     ];
 
     public $image_path = 'products';
@@ -64,5 +68,10 @@ class Product extends Model
     public function specification()
     {
         return $this->hasMany(ProductSpecification::class, 'product_id');
+    }
+
+    public function units()
+    {
+        return $this->belongsToMany(Unit::class, 'product_units', 'product_id', 'unit_field_id');
     }
 }

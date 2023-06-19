@@ -7,17 +7,17 @@
     <div class="container-fluid">
 
         <!-- start page title -->
-        @include('includes.breadcrumb', ['page'=>'Category unit', 'page_link'=>route('category_unit.paginate.get', $category_id), 'list'=>['Create']])
+        @include('includes.breadcrumb', ['page'=>'Unit', 'page_link'=>route('unit.paginate.get'), 'list'=>['Create']])
         <!-- end page title -->
 
         <div class="row">
-            @include('includes.back_button', ['link'=>route('category_unit.paginate.get', $category_id)])
+            @include('includes.back_button', ['link'=>route('unit.paginate.get')])
             <div class="col-lg-12">
-                <form id="countryForm" method="post" action="{{route('category_unit.update.post', [$category_id, $data->id])}}" enctype="multipart/form-data">
+                <form id="countryForm" method="post" action="{{route('unit.update.post', $data->id)}}" enctype="multipart/form-data">
                 @csrf
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Category unit Detail</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Unit Detail</h4>
                         </div><!-- end card header -->
                         <div class="card-body">
                             <div class="live-preview">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Parent\Dashboard;
 
 use App\Enums\Gender;
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Kid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -15,7 +16,17 @@ use Illuminate\Support\Arr;
 class KidController extends Controller
 {
     protected function query(){
-        return Kid::with(['schoolAndclass'])->latest();
+        return Kid::with(['schoolAndclass'])->where('user_id', auth()->user()->id)->latest();
+    }
+
+    protected function cart(){
+        return Cart::with(['product'])->where('user_id', auth()->user()->id)->latest()->get();
+    }
+
+    protected function cart_total(){
+        return $this->cart()->reduce(function ($total, $item) {
+            return $total + $item->cart_quantity_price;
+        },0);
     }
 
     public function index(Request $request){
@@ -29,13 +40,19 @@ class KidController extends Controller
         }
 
         $data = $data->paginate(10);
-        return view('parent.kid.paginate')->with('data', $data);
+        return view('parent.kid.paginate')->with([
+            'data'=> $data,
+            'cart'=> $this->cart(),
+            'cart_total'=> $this->cart_total(),
+        ]);
     }
 
     public function create() {
         return view('parent.kid.create')->with([
             'school_classes' => SchoolClass::with(['class', 'school', 'section'])->get(),
             'genders' => Arr::map(Gender::cases(), fn($enum) => $enum->value),
+            'cart' => $this->cart(),
+            'cart_total' => $this->cart_total(),
         ]);
     }
 
@@ -54,6 +71,8 @@ class KidController extends Controller
         return view('parent.kid.update')->with('data',$data)->with([
             'school_classes' => SchoolClass::with(['class', 'school', 'section'])->get(),
             'genders' => Arr::map(Gender::cases(), fn($enum) => $enum->value),
+            'cart' => $this->cart(),
+            'cart_total' => $this->cart_total(),
         ]);
     }
 

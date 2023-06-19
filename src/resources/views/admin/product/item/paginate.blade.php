@@ -49,7 +49,7 @@
                                         <tr>
                                             <td class="customer_name">{{$item->name}}</td>
                                             <td class="customer_name">{{$item->price}}</td>
-                                            <td class="customer_name">{{$item->category->name}}-{{$item->category->gender}}</td>
+                                            <td class="customer_name">{{$item->category->name}}</td>
                                             <td class="customer_name">{{$item->schoolAndclass->school->name.'/'.$item->schoolAndclass->class->name,}}</td>
                                             <td class="date">{{$item->created_at->diffForHumans()}}</td>
                                             <td>

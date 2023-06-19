@@ -26,7 +26,7 @@ class Kid extends Model
         'gender' => Gender::class,
     ];
 
-    public function schoolAndclass()
+    public function schoolAndClass()
     {
         return $this->belongsTo(SchoolClass::class, 'school_class_id')->withDefault();
     }
