@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Parent\Dashboard;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentMode;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
@@ -67,7 +68,7 @@ class OrderController extends Controller
         return $razorpayOrder['id'];
     }
 
-    public function payment_verify(array $data): bool
+    protected function payment_verify(array $data): bool
     {
 
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
@@ -82,6 +83,18 @@ class OrderController extends Controller
         {
             return false;
         }
+    }
+
+    protected function refund(float $amount, string $razorpay_payment_id): void
+    {
+
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $refundData = [
+            'amount'          => $amount*100, // 39900 rupees in paise
+            'speed'        => 'normal',
+        ];
+
+        $razorpayOrder = $api->payment->fetch($razorpay_payment_id)->refund($refundData);
     }
 
     public function index(Request $request){
@@ -208,6 +221,46 @@ class OrderController extends Controller
         return response()->json([
             'message' => 'Payment verification failed!',
         ], 400);
+    }
+
+    public function cancel_order($id) {
+        $data = Order::with([
+            'address',
+            'user',
+            'orderItems' => function($query) {
+                $query->with([
+                    'product',
+                    'kid'
+                ]);
+            }
+        ])
+        ->where('user_id', auth()->user()->id)
+        ->where(function($query){
+            $query->where('mode_of_payment', PaymentMode::COD)->where('order_status', '!=', OrderStatus::CANCELLED)
+            ->orWhere(function($q){
+                $q->where('mode_of_payment', PaymentMode::ONLINE)
+                ->where('order_status', '!=', OrderStatus::CANCELLED)
+                ->where(function($qr){
+                    $qr->where('payment_status', PaymentStatus::PAID);
+                });
+            });
+        })
+        ->latest()->findOrFail($id);
+
+        $data->update([
+            'order_status' => OrderStatus::CANCELLED,
+            'cancelled_at' => now(),
+        ]);
+
+        if($data->mode_of_payment==PaymentMode::ONLINE){
+            $this->refund($data->total_amount, $data->razorpay_payment_id);
+            $data->update([
+                'payment_status' => PaymentStatus::REFUND,
+            ]);
+        }
+
+        return redirect()->back()->with('success_status', 'Order cancelled successfully.');
+
     }
 }
 

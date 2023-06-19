@@ -93,10 +93,12 @@
                             <div class="card-header">
                                 <div class="d-sm-flex align-items-center">
                                     <h5 class="card-title flex-grow-1 mb-0">Order Status</h5>
+                                    @if($data->order_status!=\App\Enums\OrderStatus::CANCELLED)
                                     <div class="flex-shrink-0 mt-2 mt-sm-0">
-                                        <a href="javasccript:void(0;)" class="btn btn-soft-danger btn-sm mt-2 mt-sm-0"><i class="mdi mdi-archive-remove-outline align-bottom me-1"></i> Cancel
-                                            Order</a>
+                                        <button data-link="{{route('order.cancel.get', $data->id)}}" class="btn btn-soft-danger btn-sm mt-2 mt-sm-0 remove-item-btn"><i class="mdi mdi-archive-remove-outline align-bottom me-1"></i> Cancel
+                                            Order</button>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body">
@@ -123,6 +125,7 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        @if($data->order_status!=\App\Enums\OrderStatus::CANCELLED)
                                         <div class="accordion-item border-0">
                                             <div class="accordion-header" id="headingTwo">
                                                 <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -204,6 +207,28 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        @else
+                                        <div class="accordion-item border-0">
+                                            <div class="accordion-header" id="headingTwo">
+                                                <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-shrink-0 avatar-xs">
+                                                            <div
+                                                                @class([
+                                                                    'avatar-title rounded-circle',
+                                                                    'bg-danger',
+                                                                ])>
+                                                                <i class="ri-close-line"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h6 class="fs-15 mb-1 fw-semibold">Cancelled @if(!empty($data->cancelled_at))- <span class="fw-normal">{{$data->cancelled_at->diffForHumans()}}</span>@endif</h6>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        @endif
                                     </div>
                                     <!--end accordion-->
                                 </div>
