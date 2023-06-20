@@ -123,6 +123,7 @@ class DashboardController extends Controller
             'data' => $data,
             'cart' => $cart,
             'cart_total' => $cart_total,
+            'kids' => $kids,
             'gender' => $gender,
             'school' => $school_category->pluck('schoolAndclass.school')->groupBy('id'),
             'category' => $school_category->pluck('category')->groupBy('id'),

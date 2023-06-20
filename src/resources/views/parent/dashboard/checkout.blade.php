@@ -40,30 +40,49 @@
                                                     </div>
                                                 </div>
                                                 <div class="row gy-3">
-                                                    @foreach($address as $k => $v)
-                                                    <div class="col-lg-4 col-sm-6">
-                                                        <div class="form-check card-radio">
-                                                            <input id="shippingAddress{{$k+1}}" name="address_id" type="radio" value="{{$v->id}}" class="form-check-input" {{$k==0 ? 'checked' : ''}}>
-                                                            <label class="form-check-label" for="shippingAddress{{$k+1}}">
-                                                                <span class="mb-4 fw-semibold d-block text-muted text-uppercase">{{$v->label}}</span>
+                                                    @if(count($address)>0)
+                                                        @foreach($address as $k => $v)
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="form-check card-radio">
+                                                                <input id="shippingAddress{{$k+1}}" name="address_id" type="radio" value="{{$v->id}}" class="form-check-input" {{$k==0 ? 'checked' : ''}}>
+                                                                <label class="form-check-label" for="shippingAddress{{$k+1}}">
+                                                                    <span class="mb-4 fw-semibold d-block text-muted text-uppercase">{{$v->label}}</span>
 
-                                                                <span class="text-muted fw-normal text-wrap mb-1 d-block">
-                                                                    {{$v->address}}, {{$v->city}}, {{$v->state}}, {{$v->pin}}
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                                            <div>
-                                                                <a href="{{route('address.update.get', $v->id)}}" class="d-block text-body p-1 px-2"><i class="ri-pencil-fill text-muted align-bottom me-1"></i>
-                                                                    Edit</a>
+                                                                    <span class="text-muted fw-normal text-wrap mb-1 d-block">
+                                                                        {{$v->address}}, {{$v->city}}, {{$v->state}}, {{$v->pin}}
+                                                                    </span>
+                                                                </label>
                                                             </div>
-                                                            <div>
-                                                                <button type="button" data-link="{{route('address.delete.get', $v->id)}}" class="d-block btn text-body p-1 px-2 remove-item-btn"><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i>
-                                                                    Remove</button>
+                                                            <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
+                                                                <div>
+                                                                    <a href="{{route('address.update.get', $v->id)}}" class="d-block text-body p-1 px-2"><i class="ri-pencil-fill text-muted align-bottom me-1"></i>
+                                                                        Edit</a>
+                                                                </div>
+                                                                <div>
+                                                                    <button type="button" data-link="{{route('address.delete.get', $v->id)}}" class="d-block btn text-body p-1 px-2 remove-item-btn"><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i>
+                                                                        Remove</button>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    @endforeach
+                                                        @endforeach
+                                                    @else
+                                                        <div class="col-12">
+                                                            <div class="noresult text-center">
+                                                                <hr>
+                                                                <lord-icon
+                                                                    src="https://cdn.lordicon.com/msoeawqm.json"
+                                                                    trigger="loop"
+                                                                    colors="primary:#121331,secondary:#08a88a"
+                                                                    style="width:100px;height:100px">
+                                                                </lord-icon>
+                                                                <div class="text-center">
+                                                                    <h5 class="mt-2">Sorry! No Address Found</h5>
+                                                                    <p>Please add an address to proceed.</p>
+                                                                </div>
+                                                                <hr>
+                                                            </div>
+                                                        </div>
+                                                    @endif
 
                                                 </div>
 
@@ -102,7 +121,7 @@
                                             </div>
 
                                             <div class="d-flex align-items-start gap-3 mt-4">
-                                                <button type="submit" id="submitBtn" class="btn btn-primary btn-label right ms-auto nexttab"><i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Place Order</button>
+                                                <button type="submit" id="submitBtn" {{count($address)>0 ? '' : 'disabled'}} class="btn btn-primary btn-label right ms-auto nexttab"><i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Place Order</button>
                                             </div>
                                         </div>
                                         <!-- end tab pane -->
@@ -175,13 +194,16 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="text-center empty-cart" id="empty-cart">
-                            <div class="avatar-md mx-auto my-3">
-                                <div class="avatar-title bg-soft-info text-info fs-36 rounded-circle">
-                                    <i class='bx bx-cart'></i>
-                                </div>
+                            <lord-icon
+                                src="https://cdn.lordicon.com/slkvcfos.json"
+                                trigger="loop"
+                                colors="primary:#121331,secondary:#08a88a"
+                                style="width:250px;height:250px">
+                            </lord-icon>
+                            <div class="mt-4">
+                                <h5 class="mb-3">Your Cart is Empty!</h5>
+                                <a href="{{route('parent_dashboard')}}" class="btn btn-success w-md mb-3">Shop Now</a>
                             </div>
-                            <h5 class="mb-3">Your Cart is Empty!</h5>
-                            <a href="{{route('parent_dashboard')}}" class="btn btn-success w-md mb-3">Shop Now</a>
                         </div>
                     </div>
                 </div>

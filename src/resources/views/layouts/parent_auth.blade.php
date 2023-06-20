@@ -24,7 +24,7 @@
                         <div class="col-lg-12">
                             <div class="text-center mt-sm-5 mb-4 text-white-50">
                                 <div>
-                                    <a href="index.html" class="d-inline-block auth-logo">
+                                    <a href="{{route('parent_signin')}}" class="d-inline-block auth-logo">
                                         <img src="{{ asset('admin/images/logo-main.png') }}" alt="" style="height: 200px; object-fit:contain;">
                                     </a>
                                 </div>
