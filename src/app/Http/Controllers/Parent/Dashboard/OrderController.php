@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderUnit;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,10 @@ use Illuminate\Validation\Rules\Enum;
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
 
+date_default_timezone_set('Asia/Kolkata');
 class OrderController extends Controller
 {
+
     protected function query(){
         return Order::with([
             'address',
@@ -266,6 +269,13 @@ class OrderController extends Controller
     public function edit_order($id){
 
         $order_detail = OrderUnit::with(['product', 'kid'])->latest()->findOrFail($id);
+        if($order_detail->order->order_status==OrderStatus::CANCELLED){
+            return redirect()->back()->with('error_status', 'Unable to edit as the order has been cancelled!');
+        }
+        if((time()-(60*60*24)) > strtotime($order_detail->order->created_at->addDays($order_detail->product->schoolAndclass->school->submission_duration))){
+            return redirect()->back()->with('error_status', 'You have passed the deadline for editing the size of the item!');
+        }
+
         $cart = Cart::with(['product'])->where('user_id', auth()->user()->id)->latest()->get();
         $cart_total = $cart->reduce(function ($total, $item) {
             return $total + $item->cart_quantity_price;
@@ -281,6 +291,12 @@ class OrderController extends Controller
     public function update_order(OrderItemUpdateRequest $request, $id)
     {
         $order_detail = OrderUnit::with(['product', 'kid'])->latest()->findOrFail($id);
+        if($order_detail->order->order_status==OrderStatus::CANCELLED){
+            return redirect()->back()->with('error_status', 'Unable to edit as the order has been cancelled!');
+        }
+        if((time()-(60*60*24)) > strtotime($order_detail->order->created_at->addDays($order_detail->product->schoolAndclass->school->submission_duration))){
+            return redirect()->back()->with('error_status', 'You have passed the deadline for editing the size of the item!');
+        }
         $order_detail->update([
             'units' => json_encode($request->units),
         ]);

@@ -48,7 +48,7 @@
                                                 <th scope="col">Item Price</th>
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col" class="text-end">Total Amount</th>
-                                                <th scope="col" class="text-end">Edit Size</th>
+                                                <th scope="col" class="text-end">Edit Sizes</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -72,7 +72,7 @@
                                                                 </code>
                                                                 Last date to update the size for the above item  -
                                                                 <b>
-                                                                    {{$data->created_at->addDays($v->product->schoolAndclass->school->submission_duration)->format('M d, Y - h:m a')}}
+                                                                    {{$data->created_at->addDays($v->product->schoolAndclass->school->submission_duration)->format('M d, Y')}}
                                                                 </b>
                                                             </p>
                                                         </div>
@@ -84,7 +84,19 @@
                                                     &#8377; {{$v->cart_quantity_price}}
                                                 </td>
                                                 <td class="text-end">
-                                                    <a href="{{route('parent_edit_order', $v->id)}}" class="btn btn-sm btn-warning edit-item-btn"><i class="ri-pencil-fill text-white align-bottom"></i></a>
+                                                    @if($data->order_status!=\App\Enums\OrderStatus::CANCELLED)
+                                                        @if((time()-(60*60*24)) < strtotime($data->created_at->addDays($v->product->schoolAndclass->school->submission_duration)))
+                                                            <a href="{{route('parent_edit_order', $v->id)}}" class="btn btn-sm btn-warning edit-item-btn"><i class="ri-pencil-fill text-white align-bottom"></i></a>
+                                                        @else
+                                                            <div class="alert alert-danger p-1" role="alert">
+                                                                <strong> Deadline Exceeded</strong>
+                                                            </div>
+                                                        @endif
+                                                    @else
+                                                        <div class="alert alert-danger p-1" role="alert">
+                                                            <strong> Order Cancelled</strong>
+                                                        </div>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             @endforeach

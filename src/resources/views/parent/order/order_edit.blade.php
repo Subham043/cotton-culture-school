@@ -17,7 +17,13 @@
                             <div class="card-body">
                                 <h4 class="card-title mb-0 flex-grow-1 mb-4 text-center">Time pending before you won't be allowed to update the size for the following item!</h4>
                                 <hr>
-                                <div id="countdown" class="countdownlist"></div>
+                                <div id="countdown" class="text-center">
+                                    <h3>
+                                        <code>
+                                            {{$order_detail->order->created_at->addDays($order_detail->product->schoolAndclass->school->submission_duration)->format('M d, Y')}}
+                                        </code>
+                                    </h3>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -238,8 +244,6 @@
 <script src="{{ asset('admin/js/pages/axios.min.js') }}"></script>
 
 <script type="text/javascript">
-
-document.addEventListener("DOMContentLoaded",function(){var e=new Date("{{$order_detail->order->created_at->addDays($order_detail->product->schoolAndclass->school->submission_duration)->format('M d, Y')}}").getTime(),d=setInterval(function(){var t=(new Date).getTime(),t=e-t,n='<div class="countdownlist-item"><div class="count-title">Days</div><div class="count-num">'+Math.floor(t/864e5)+'</div></div><div class="countdownlist-item"><div class="count-title">Hours</div><div class="count-num">'+Math.floor(t%864e5/36e5)+'</div></div><div class="countdownlist-item"><div class="count-title">Minutes</div><div class="count-num">'+Math.floor(t%36e5/6e4)+'</div></div><div class="countdownlist-item"><div class="count-title">Seconds</div><div class="count-num">'+Math.floor(t%6e4/1e3)+"</div></div>";document.getElementById("countdown")&&(document.getElementById("countdown").innerHTML=n),t<0&&(clearInterval(d),document.getElementById("countdown").innerHTML='<div class="countdown-endtxt text-center mx-auto">You cannout update the sizes!</div>')},1e3)});
 
 const cart_field = @json(json_decode($order_detail->units));
 const cart_field_data = JSON.parse(cart_field)
