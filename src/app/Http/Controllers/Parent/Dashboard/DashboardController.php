@@ -43,11 +43,29 @@ class DashboardController extends Controller
     public function index(Request $request){
         $data = $this->query();
 
-        if ($request->has('search')) {
-            $search = $request->input('search');
-            $data->where(function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
+        if ($request->has('school')) {
+            $arr = array_map('intval', explode('_', request()->input('school')));
+            $data->where(function($query) use($arr){
+                $query->whereHas('schoolAndClass', function($q) use($arr) {
+                    $q->whereHas('school', function($q) use($arr) {
+                        $q->whereIn('id', $arr);
+                    });
+                });
             });
+        }
+
+        if ($request->has('category')) {
+            $arr = array_map('intval', explode('_', request()->input('category')));
+            $data->where(function($query) use($arr){
+                $query->whereHas('category', function($q) use($arr) {
+                    $q->whereIn('id', $arr);
+                });
+            });
+        }
+
+        if ($request->has('gender')) {
+            $arr = explode('_', request()->input('gender'));
+            $data->whereIn('gender', $arr);
         }
 
         $kids = Kid::with([
@@ -78,6 +96,22 @@ class DashboardController extends Controller
         })
         ->latest()->get();
 
+        $gender = Product::select('gender')
+        ->where(function($query) use($kids){
+            foreach ($kids as $key => $value) {
+                # code...
+                if($key==0){
+                    $query->where(function($q) use($value){
+                        $q->where('gender', $value->gender)->where('school_class_id', $value->school_class_id);
+                    });
+                }else{
+                    $query->orWhere(function($q) use($value){
+                        $q->where('gender', $value->gender)->where('school_class_id', $value->school_class_id);
+                    });
+                }
+            }
+        })->groupBy('gender')->get();
+
         $data = $data->paginate(10);
 
         $cart = Cart::with(['product'])->where('user_id', auth()->user()->id)->latest()->get();
@@ -89,6 +123,7 @@ class DashboardController extends Controller
             'data' => $data,
             'cart' => $cart,
             'cart_total' => $cart_total,
+            'gender' => $gender,
             'school' => $school_category->pluck('schoolAndclass.school')->groupBy('id'),
             'category' => $school_category->pluck('category')->groupBy('id'),
         ]);

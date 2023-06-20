@@ -37,7 +37,6 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th class="sort" data-sort="customer_name">Class</th>
-                                            <th class="sort" data-sort="customer_name">Gender</th>
                                             <th class="sort" data-sort="date">Created On</th>
                                             <th class="sort" data-sort="action">Action</th>
                                             </tr>
@@ -46,7 +45,6 @@
                                         @foreach ($data->items() as $item)
                                         <tr>
                                             <td class="customer_name">{{$item->name}}</td>
-                                            <td class="customer_name">{{$item->gender}}</td>
                                             <td class="date">{{$item->created_at->diffForHumans()}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">

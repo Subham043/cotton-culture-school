@@ -52,7 +52,7 @@
                                             <h5 class="fs-16 m-0">Filters</h5>
                                         </div>
                                         <div class="flex-shrink-0">
-                                            <a href="#" class="btn btn-primary" id="clearall">Apply</a>
+                                            <button type="button" class="btn btn-primary" id="filterBtn">Apply</button>
                                         </div>
                                     </div>
                                 </div>
@@ -71,8 +71,8 @@
                                                 <div class="d-flex flex-column gap-2 mt-3 filter-check">
                                                     @foreach($school as $v)
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="{{$v[0]->id}}" id="productBrandRadio5">
-                                                        <label class="form-check-label" for="productBrandRadio5">{{$v[0]->name}}</label>
+                                                        <input class="form-check-input" type="checkbox" value="{{$v[0]->id}}" id="school{{$v[0]->id}}" name="school" value="{{$v[0]->id}}" @if(app('request')->has('school') && in_array($v[0]->id, explode('_', app('request')->input('school')))) checked @endif>
+                                                        <label class="form-check-label" for="school"{{$v[0]->id}}>{{$v[0]->name}}</label>
                                                     </div>
                                                     @endforeach
                                                 </div>
@@ -87,13 +87,34 @@
                                                 <span class="text-muted text-uppercase fs-13 fw-medium">Category</span> <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge" style="display: none;">0</span>
                                             </button>
                                         </h2>
-                                        <div id="flush-collapseDiscount" class="accordion-collapse collapse" aria-labelledby="flush-headingDiscount" style="">
+                                        <div id="flush-collapseDiscount" class="accordion-collapse collapse @if(app('request')->has('category')) show @endif" aria-labelledby="flush-headingDiscount" style="">
                                             <div class="accordion-body text-body pt-1">
                                                 <div class="d-flex flex-column gap-2 filter-check">
                                                     @foreach($category as $v)
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="50% or more" id="productdiscountRadio6">
-                                                        <label class="form-check-label" for="productdiscountRadio6">{{$v[0]->name}}</label>
+                                                        <input class="form-check-input" type="checkbox" value="{{$v[0]->id}}" name="category" id="category{{$v[0]->id}}" @if(app('request')->has('category') && in_array($v[0]->id, explode('_', app('request')->input('category')))) checked @endif>
+                                                        <label class="form-check-label" for="category{{$v[0]->id}}">{{$v[0]->name}}</label>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end accordion-item -->
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingDiscount2">
+                                            <button class="accordion-button bg-transparent shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseDiscount2" aria-expanded="false" aria-controls="flush-collapseDiscount2">
+                                                <span class="text-muted text-uppercase fs-13 fw-medium">Gender</span> <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge" style="display: none;">0</span>
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseDiscount2" class="accordion-collapse collapse @if(app('request')->has('gender')) show @endif" aria-labelledby="flush-headingDiscount2" style="">
+                                            <div class="accordion-body text-body pt-1">
+                                                <div class="d-flex flex-column gap-2 filter-check">
+                                                    @foreach($gender as $v)
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="{{$v->gender}}" name="gender" id="gender{{$v->gender}}" @if(app('request')->has('gender') && in_array($v->gender->value, explode('_', app('request')->input('gender')))) checked @endif>
+                                                        <label class="form-check-label" for="gender{{$v->gender->value}}">{{$v->gender}}</label>
                                                     </div>
                                                     @endforeach
                                                 </div>
@@ -157,4 +178,51 @@
 @stop
 
 @section('javascript')
+
+<script>
+    document.getElementById('filterBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+        var str= "";
+        var arr = [];
+
+        var schoolElems = document.getElementsByName("school");
+        var schoolArr = [];
+        for (var i=0; i<schoolElems.length; i++) {
+            if (schoolElems[i].type === "checkbox" && schoolElems[i].checked === true){
+                schoolArr.push(schoolElems[i].value);
+            }
+        }
+        if(schoolArr.length > 0){
+            schoolStr = schoolArr.join('_');
+            arr.push("school="+schoolStr)
+        }
+
+        var categoryElems = document.getElementsByName("category");
+        var categoryArr = [];
+        for (var i=0; i<categoryElems.length; i++) {
+            if (categoryElems[i].type === "checkbox" && categoryElems[i].checked === true){
+                categoryArr.push(categoryElems[i].value);
+            }
+        }
+        if(categoryArr.length > 0){
+            categoryStr = categoryArr.join('_');
+            arr.push("category="+categoryStr)
+        }
+
+        var genderElems = document.getElementsByName("gender");
+        var genderArr = [];
+        for (var i=0; i<genderElems.length; i++) {
+            if (genderElems[i].type === "checkbox" && genderElems[i].checked === true){
+                genderArr.push(genderElems[i].value);
+            }
+        }
+        if(genderArr.length > 0){
+            genderStr = genderArr.join('_');
+            arr.push("gender="+genderStr)
+        }
+
+        str = arr.join('&');
+        window.location.replace('{{route('parent_dashboard')}}?'+str)
+    })
+</script>
 @stop

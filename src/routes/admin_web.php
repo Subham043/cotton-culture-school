@@ -17,14 +17,14 @@ use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Product\ProductImageController;
 use App\Http\Controllers\Admin\Product\ProductSpecificationController;
 
-Route::middleware(['guest'])->group(function () {
+Route::middleware(['guest_admin'])->group(function () {
     Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
     Route::post('/sign-in', [LoginPageController::class, 'authenticate', 'as' => 'login.authenticate'])->name('signin_authenticate');
     Route::get('/forgot-password', [ForgotPasswordPageController::class, 'index', 'as' => 'forgot_password.index'])->name('forgot_password');
     Route::post('/forgot-password', [ForgotPasswordPageController::class, 'requestForgotPassword', 'as' => 'forgot_password.requestForgotPassword'])->name('forgot_password_request');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth_admin', 'verified', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index', 'as' => 'admin.dashboard'])->name('dashboard');
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ProfilePageController::class, 'index', 'as' => 'admin.profile'])->name('profile');
@@ -117,4 +117,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.index'])->middleware(['auth'])->name('signout');
+Route::get('/sign-out', [LogoutPageController::class, 'logout', 'as' => 'logout.index'])->middleware(['auth_admin', 'admin'])->name('signout');

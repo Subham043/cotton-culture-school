@@ -1,5 +1,54 @@
 @extends('layouts.parent_dashboard')
 
+@section('css')
+<style>
+    .carousel-indicators {
+        position: absolute;
+        right: 0;
+        bottom: -85px;
+        left: 0;
+        z-index: 2;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        padding: 0;
+        margin-right: 15%;
+        margin-bottom: 1rem;
+        align-items: center;
+        margin-left: 15%;
+        list-style: none;
+    }
+    .carousel-indicators .active {
+        opacity: 1;
+        border: 1px solid;
+    }
+    .carousel-indicators [data-bs-target] {
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        margin-right: 3px;
+        margin-left: 3px;
+        /* text-indent: -999px; */
+        cursor: pointer;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        opacity: 1;
+        -webkit-transition: opacity .6s ease;
+        transition: opacity .6s ease;
+    }
+</style>
+@stop
 
 @section('content')
 

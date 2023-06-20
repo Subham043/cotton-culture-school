@@ -1,6 +1,5 @@
 @extends('layouts.parent_dashboard')
 
-
 @section('content')
 
 <div class="page-content">
