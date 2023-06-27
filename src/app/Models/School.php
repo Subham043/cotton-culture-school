@@ -45,4 +45,9 @@ class School extends Model
     {
         return $this->hasMany(SchoolClass::class, 'class_id');
     }
+
+    public function allocated_users()
+    {
+        return $this->belongsToMany(User::class, 'allocated_schools', 'school_id', 'user_id');
+    }
 }

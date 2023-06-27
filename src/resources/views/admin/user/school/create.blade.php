@@ -21,14 +21,17 @@
                         <div class="card-body">
                             <div class="live-preview">
                                 <div class="row gy-4">
-                                    <div class="col-xxl-4 col-md-4">
+                                    <div class="col-xxl-3 col-md-3">
                                         @include('includes.input', ['key'=>'name', 'label'=>'Name', 'value'=>old('name')])
                                     </div>
-                                    <div class="col-xxl-4 col-md-4">
+                                    <div class="col-xxl-3 col-md-3">
                                         @include('includes.input', ['key'=>'email', 'label'=>'Email', 'value'=>old('email')])
                                     </div>
-                                    <div class="col-xxl-4 col-md-4">
+                                    <div class="col-xxl-3 col-md-3">
                                         @include('includes.input', ['key'=>'phone', 'label'=>'Phone', 'value'=>old('phone')])
+                                    </div>
+                                    <div class="col-xxl-3 col-md-3">
+                                        @include('includes.select_multiple', ['key'=>'allocated_schools', 'label'=>'Allocate School'])
                                     </div>
                                     <div class="col-xxl-6 col-md-6">
                                         @include('includes.password_input', ['key'=>'password', 'label'=>'Password', 'value'=>''])
@@ -64,6 +67,7 @@
 
 
 @section('javascript')
+<script src="{{ asset('admin/js/pages/choices.min.js') }}"></script>
 
 <script type="text/javascript">
 
@@ -107,9 +111,30 @@ validation
       errorMessage: 'Phone is required',
     }
   ])
+  .addField('#allocated_schools', [
+    {
+      rule: 'required',
+      errorMessage: 'Allocate School is required',
+    },
+  ])
   .onSuccess(async (event) => {
     event.target.submit();
   });
+
+  const allocatedSchoolsChoice = new Choices('#allocated_schools', {
+        choices: [
+            @foreach($allocated_schoolss as $allocated_schools)
+                {
+                    value: '{{$allocated_schools->id}}',
+                    label: '{{$allocated_schools->name}}',
+                },
+            @endforeach
+        ],
+        placeholderValue: 'Select Allocated School',
+        ...CHOICE_CONFIG,
+        shouldSort: false,
+        shouldSortItems: false,
+    });
 
 </script>
 

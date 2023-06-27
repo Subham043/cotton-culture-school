@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
+use App\Models\School;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,22 +18,26 @@ class SchoolUserController extends Controller
 {
 
     protected function query(){
-        return User::where('id', '!=' , Auth::user()->id)->where("role" , Role::SCHOOL->value)->orderBy('id', 'DESC');
+        return User::with('allocated_schools')->where('id', '!=' , Auth::user()->id)->where("role" , Role::SCHOOL->value)->orderBy('id', 'DESC');
     }
 
     public function create() {
 
-        return view('admin.user.school.create');
+        return view('admin.user.school.create')->with([
+            'allocated_schoolss' => School::all(),
+        ]);
     }
 
     public function store(UserCreateRequest $req) {
 
         $result = User::create([
-            ...$req->except('phone', 'password'),
+            ...$req->except('phone', 'password', 'allocated_schools'),
             'role' => Role::SCHOOL->value,
             'password' => Hash::make($req->password),
             'phone' => !empty($req->phone) ? $req->phone : null
         ]);
+
+        $result->allocated_schools()->sync($req->allocated_schools);
 
         event(new Registered($result));
 
@@ -45,16 +50,22 @@ class SchoolUserController extends Controller
 
     public function edit($id) {
         $data = $this->query()->findOrFail($id);
-        return view('admin.user.school.update')->with('data',$data);
+        return view('admin.user.school.update')->with([
+            'data'=>$data,
+            'allocated_schoolss' => School::all(),
+            'allocated_schools_data' => $data->allocated_schools->pluck('id')->toArray(),
+        ]);
     }
 
     public function update(UserUpdateRequest $req, $id) {
         $data = User::findOrFail($id);
 
         $result = $data->fill([
-            ...$req->except(['password', 'phone']),
+            ...$req->except(['password', 'phone', 'allocated_schools']),
             'phone' => !empty($req->phone) ? $req->phone : null
         ]);
+
+        $result->allocated_schools()->sync($req->allocated_schools);
 
         if ($data->isDirty('email')) {
             $data->email_verified_at = null;
@@ -128,6 +139,8 @@ class UserCreateRequest extends FormRequest
                         ->uncompromised()
             ],
             'confirm_password' => ['required_with:password|same:password'],
+            'allocated_schools' => 'required|array|min:1',
+            'allocated_schools.*' => 'required|numeric|exists:schools,id',
         ];
     }
 
@@ -184,6 +197,8 @@ class UserUpdateRequest extends UserCreateRequest
             'name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'email' => ['required','email','unique:users,email,'.$this->route('id')],
             'phone' => ['required','regex:/^[0-9]*$/','unique:users,phone,'.$this->route('id')],
+            'allocated_schools' => 'required|array|min:1',
+            'allocated_schools.*' => 'required|numeric|exists:schools,id',
         ];
     }
 }

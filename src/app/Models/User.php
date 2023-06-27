@@ -58,4 +58,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new \App\Notifications\ResetPasswordQueued($token));
     }
+
+    public function allocated_schools()
+    {
+        return $this->belongsToMany(School::class, 'allocated_schools', 'user_id', 'school_id');
+    }
 }
