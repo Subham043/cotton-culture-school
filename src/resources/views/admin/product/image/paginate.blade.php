@@ -82,7 +82,7 @@
                                     @include('includes.no_result')
                                 @endif
                             </div>
-                            {{$data->onEachSide(5)->links('includes.pagination')}}
+                            {{$data->withQueryString()->onEachSide(5)->links('includes.pagination')}}
                         </div>
                     </div><!-- end card -->
                 </div>

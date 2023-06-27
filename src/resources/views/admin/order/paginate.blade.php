@@ -18,6 +18,88 @@
                         <h4 class="card-title mb-0">Order</h4>
                     </div><!-- end card header -->
 
+                    <div class="card-body border border-dashed border-end-0 border-start-0">
+                        <form>
+                            <div class="row g-1 align-items-end justify-content-start">
+                                <div class="col-xxl-2 col-sm-12">
+                                    <label class="form-label" for="">Search</label>
+                                    <div class="search-box">
+                                        <input type="text" class="form-control search" name="search" placeholder="Search for anything..." value="@if(request()->has('search')){{request()->input('search')}}@endif">
+                                        <i class="ri-search-line search-icon"></i>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-xxl-2 col-sm-12">
+                                    <label class="form-label" for="">Mode Of Payment</label>
+                                    <div>
+                                        <select class="form-control" name="mode_of_payment" id="mode_of_payment">
+                                            <option value="all" @if(!request()->has('mode_of_payment') || (request()->has('mode_of_payment') && strpos('all',request()->input('mode_of_payment')) !== false )) selected @endif>all</option>
+                                            @foreach($payment_modes as $v)
+                                                <option value="{{$v}}" @if(request()->has('mode_of_payment') && strpos($v,request()->input('mode_of_payment')) !== false) selected @endif>{{$v}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-xxl-2 col-sm-12">
+                                    <label class="form-label" for="">Payment Status</label>
+                                    <div>
+                                        <select class="form-control" name="payment_status" id="payment_status">
+                                            <option value="all"  @if(!request()->has('payment_status') || (request()->has('payment_status') && strpos('all',request()->input('payment_status')) !== false )) selected @endif>all</option>
+                                            @foreach($payment_statuses as $v)
+                                                <option value="{{$v}}" @if(request()->has('payment_status') && strpos($v,request()->input('payment_status')) !== false) selected @endif>{{$v}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-xxl-2 col-sm-12">
+                                    <label class="form-label" for="">Order Status</label>
+                                    <div>
+                                        <select class="form-control" name="order_status" id="order_status">
+                                            <option value="all"  @if(!request()->has('order_status') || (request()->has('order_status') && strpos('all',request()->input('order_status')) !== false )) selected @endif>all</option>
+                                            @foreach($order_statuses as $v)
+                                                <option value="{{$v}}" @if(request()->has('order_status') && strpos($v,request()->input('order_status')) !== false) selected @endif>{{$v}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-2 col-sm-12">
+                                    <label class="form-label" for="">Product</label>
+                                    <div>
+                                        <select class="form-control" name="products" id="products">
+                                            <option value="all"  @if(!request()->has('products') || (request()->has('products') && strpos('all',request()->input('products')) !== false )) selected @endif>all</option>
+                                            @foreach($products as $v)
+                                                <option value="{{$v->id}}"  @if(request()->has('products') && strpos($v->id,request()->input('products')) !== false) selected @endif>{{$v->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-2 col-sm-12">
+                                    <label class="form-label" for="">School</label>
+                                    <div>
+                                        <select class="form-control" name="schools" id="schools">
+                                            <option value="all"  @if(!request()->has('schools') || (request()->has('schools') && strpos('all',request()->input('schools')) !== false )) selected @endif>all</option>
+                                            @foreach($schools as $v)
+                                                <option value="{{$v->id}}" @if(request()->has('schools') && strpos($v->id,request()->input('schools')) !== false) selected @endif>{{$v->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-xxl-1 col-sm-12 mt-3">
+                                    <div>
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            Filter
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </form>
+                    </div>
+
                     <div class="card-body">
                         <div id="customerList">
                             <div class="table-responsive table-card mt-3 mb-1">
@@ -81,7 +163,7 @@
                                     @include('includes.no_result')
                                 @endif
                             </div>
-                            {{$data->onEachSide(5)->links('includes.pagination')}}
+                            {{$data->withQueryString()->onEachSide(5)->links('includes.pagination')}}
                         </div>
                     </div><!-- end card -->
                 </div>

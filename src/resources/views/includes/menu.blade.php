@@ -79,6 +79,33 @@
                                 </div>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),'user') !== false ? 'active' : ''}}" href="#sidebarDashboards2" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{strpos(url()->current(),'user') !== false ? 'true' : 'false'}}" aria-controls="sidebarDashboards2">
+                                    <i class="ri-user-line"></i> <span data-key="t-dashboards">Users</span>
+                                </a>
+                                <div class="collapse menu-dropdown {{strpos(url()->current(),'user') !== false ? 'show' : ''}}" id="sidebarDashboards2">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="{{route('user.admin.paginate.get')}}" class="nav-link {{strpos(url()->current(), route('user.admin.paginate.get')) !== false ? 'active' : ''}}" data-key="t-analytics"> Admin </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('user.school.paginate.get')}}" class="nav-link {{strpos(url()->current(), route('user.school.paginate.get')) !== false ? 'active' : ''}}" data-key="t-analytics"> School </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{route('user.parent.paginate.get')}}" class="nav-link {{strpos(url()->current(), route('user.parent.paginate.get')) !== false ? 'active' : ''}}" data-key="t-analytics"> Parent </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),route('admin_order.paginate.get')) !== false ? 'active' : ''}}" href="{{route('admin_order.paginate.get')}}">
+                                    <i class="bx bx-shopping-bag"></i> <span data-key="t-widgets">Order</span>
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
                     <!-- Sidebar -->

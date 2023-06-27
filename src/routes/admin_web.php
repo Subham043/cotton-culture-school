@@ -17,6 +17,9 @@ use App\Http\Controllers\Admin\Product\UnitController;
 use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Product\ProductImageController;
 use App\Http\Controllers\Admin\Product\ProductSpecificationController;
+use App\Http\Controllers\Admin\User\AdminUserController;
+use App\Http\Controllers\Admin\User\ParentUserController;
+use App\Http\Controllers\Admin\User\SchoolUserController;
 
 Route::middleware(['guest_admin'])->group(function () {
     Route::get('/sign-in', [LoginPageController::class, 'index', 'as' => 'login.index'])->name('signin');
@@ -51,6 +54,33 @@ Route::middleware(['auth_admin', 'verified', 'admin'])->group(function () {
         Route::get('/edit/{id}', [SectionController::class, 'edit', 'as' => 'admin.section.edit'])->name('section.update.get');
         Route::post('/edit/{id}', [SectionController::class, 'update', 'as' => 'admin.section.update'])->name('section.update.post');
         Route::get('/delete/{id}', [SectionController::class, 'delete', 'as' => 'admin.section.delete'])->name('section.delete.get');
+    });
+
+    Route::prefix('/user')->group(function () {
+        Route::prefix('/admin')->group(function () {
+            Route::get('/', [AdminUserController::class, 'view', 'as' => 'user.admin.view'])->name('user.admin.paginate.get');
+            Route::get('/create', [AdminUserController::class, 'create', 'as' => 'user.admin.create'])->name('user.admin.create.get');
+            Route::post('/create', [AdminUserController::class, 'store', 'as' => 'user.admin.store'])->name('user.admin.create.post');
+            Route::get('/edit/{id}', [AdminUserController::class, 'edit', 'as' => 'user.admin.edit'])->name('user.admin.update.get');
+            Route::post('/edit/{id}', [AdminUserController::class, 'update', 'as' => 'user.admin.update'])->name('user.admin.update.post');
+            Route::get('/delete/{id}', [AdminUserController::class, 'delete', 'as' => 'user.admin.delete'])->name('user.admin.delete.get');
+        });
+        Route::prefix('/parent')->group(function () {
+            Route::get('/', [ParentUserController::class, 'view', 'as' => 'user.parent.view'])->name('user.parent.paginate.get');
+            Route::get('/create', [ParentUserController::class, 'create', 'as' => 'user.parent.create'])->name('user.parent.create.get');
+            Route::post('/create', [ParentUserController::class, 'store', 'as' => 'user.parent.store'])->name('user.parent.create.post');
+            Route::get('/edit/{id}', [ParentUserController::class, 'edit', 'as' => 'user.parent.edit'])->name('user.parent.update.get');
+            Route::post('/edit/{id}', [ParentUserController::class, 'update', 'as' => 'user.parent.update'])->name('user.parent.update.post');
+            Route::get('/delete/{id}', [ParentUserController::class, 'delete', 'as' => 'user.parent.delete'])->name('user.parent.delete.get');
+        });
+        Route::prefix('/school')->group(function () {
+            Route::get('/', [SchoolUserController::class, 'view', 'as' => 'user.school.view'])->name('user.school.paginate.get');
+            Route::get('/create', [SchoolUserController::class, 'create', 'as' => 'user.school.create'])->name('user.school.create.get');
+            Route::post('/create', [SchoolUserController::class, 'store', 'as' => 'user.school.store'])->name('user.school.create.post');
+            Route::get('/edit/{id}', [SchoolUserController::class, 'edit', 'as' => 'user.school.edit'])->name('user.school.update.get');
+            Route::post('/edit/{id}', [SchoolUserController::class, 'update', 'as' => 'user.school.update'])->name('user.school.update.post');
+            Route::get('/delete/{id}', [SchoolUserController::class, 'delete', 'as' => 'user.school.delete'])->name('user.school.delete.get');
+        });
     });
 
     Route::prefix('/school')->group(function () {
@@ -120,6 +150,7 @@ Route::middleware(['auth_admin', 'verified', 'admin'])->group(function () {
         Route::get('/', [OrderController::class, 'index', 'as' => 'admin.order.view'])->name('admin_order.paginate.get');
         Route::get('/detail/{id}', [OrderController::class, 'detail', 'as' => 'admin.order.detail'])->name('admin_order.detail.get');
         Route::get('/cancel-order/{id}', [OrderController::class, 'cancel_order', 'as' => 'admin.order.cancel_order'])->name('admin_order.cancel.get');
+        Route::get('/update-order-status/{id}', [OrderController::class, 'update_order_status', 'as' => 'admin.order.update_order_status'])->name('admin_order.update_order_status.get');
     });
 
 });

@@ -120,8 +120,29 @@
                                 <div class="d-sm-flex align-items-center">
                                     <h5 class="card-title flex-grow-1 mb-0">Order Status</h5>
                                     @if($data->order_status!=\App\Enums\OrderStatus::CANCELLED)
-                                    <div class="flex-shrink-0 mt-2 mt-sm-0">
-                                        <button data-link="{{route('order.cancel.get', $data->id)}}" class="btn btn-soft-danger btn-sm mt-2 mt-sm-0 remove-item-btn"><i class="mdi mdi-archive-remove-outline align-bottom me-1"></i> Cancel
+                                    <div class="flex-shrink-0 mt-2 mt-sm-0 row gap-1">
+                                            @if(empty($data->packed_at))
+                                                <button data-link="{{route('admin_order.update_order_status.get', $data->id)}}" class="btn btn-soft-success btn-sm mt-2 mt-sm-0 remove-item-btn col-auto"><i class="ri-donut-chart-line align-bottom me-1"></i>
+                                                    Change Order Status :
+                                                    PACKED
+                                                </button>
+                                            @elseif(empty($data->shipped_at))
+                                                <button data-link="{{route('admin_order.update_order_status.get', $data->id)}}" class="btn btn-soft-success btn-sm mt-2 mt-sm-0 remove-item-btn col-auto"><i class="ri-donut-chart-line align-bottom me-1"></i>
+                                                    Change Order Status :
+                                                    SHIPPED
+                                                </button>
+                                            @elseif(empty($data->ofd_at))
+                                                <button data-link="{{route('admin_order.update_order_status.get', $data->id)}}" class="btn btn-soft-success btn-sm mt-2 mt-sm-0 remove-item-btn col-auto"><i class="ri-donut-chart-line align-bottom me-1"></i>
+                                                    Change Order Status :
+                                                    OUT FOR DELIVERY
+                                                </button>
+                                            @elseif(empty($data->delivered_at))
+                                                <button data-link="{{route('admin_order.update_order_status.get', $data->id)}}" class="btn btn-soft-success btn-sm mt-2 mt-sm-0 remove-item-btn col-auto"><i class="ri-donut-chart-line align-bottom me-1"></i>
+                                                    Change Order Status :
+                                                    DELIVERED
+                                                </button>
+                                            @endif
+                                        <button data-link="{{route('admin_order.cancel.get', $data->id)}}" class="btn btn-soft-danger btn-sm mt-2 mt-sm-0 remove-item-btn col-auto"><i class="mdi mdi-archive-remove-outline align-bottom me-1"></i> Cancel
                                             Order</button>
                                     </div>
                                     @endif
@@ -207,7 +228,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
-                                                            <h6 class="fs-14 mb-0 fw-semibold">Out For Delivery</h6>
+                                                            <h6 class="fs-14 mb-0 fw-semibold">Out For Delivery @if(!empty($data->ofd_at))- <span class="fw-normal">{{$data->ofd_at->diffForHumans()}}</span>@endif</h6>
                                                         </div>
                                                     </div>
                                                 </a>

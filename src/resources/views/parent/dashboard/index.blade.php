@@ -162,7 +162,7 @@
                                         </div>
                                         @endforeach
                                     </div>
-                                    {{$data->onEachSide(5)->links('includes.pagination')}}
+                                    {{$data->withQueryString()->onEachSide(5)->links('includes.pagination')}}
                                 @else
                                 <div class="noresult text-center">
                                     <lord-icon
