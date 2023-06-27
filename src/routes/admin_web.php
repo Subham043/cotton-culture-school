@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Academic\SchoolClassController;
 use App\Http\Controllers\Admin\Academic\ClassController;
 use App\Http\Controllers\Admin\Academic\SchoolController;
 use App\Http\Controllers\Admin\Academic\SectionController;
+use App\Http\Controllers\Admin\Dashboard\OrderController;
 use App\Http\Controllers\Admin\Product\CategoryController;
 use App\Http\Controllers\Admin\Product\UnitController;
 use App\Http\Controllers\Admin\Product\ProductController;
@@ -113,6 +114,12 @@ Route::middleware(['auth_admin', 'verified', 'admin'])->group(function () {
             Route::post('/edit/{id}', [ProductSpecificationController::class, 'update', 'as' => 'admin.product_specification.update'])->name('product_specification.update.post');
             Route::get('/delete/{id}', [ProductSpecificationController::class, 'delete', 'as' => 'admin.product_specification.delete'])->name('product_specification.delete.get');
         });
+    });
+
+    Route::prefix('/order')->group(function () {
+        Route::get('/', [OrderController::class, 'index', 'as' => 'admin.order.view'])->name('admin_order.paginate.get');
+        Route::get('/detail/{id}', [OrderController::class, 'detail', 'as' => 'admin.order.detail'])->name('admin_order.detail.get');
+        Route::get('/cancel-order/{id}', [OrderController::class, 'cancel_order', 'as' => 'admin.order.cancel_order'])->name('admin_order.cancel.get');
     });
 
 });
