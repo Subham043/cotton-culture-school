@@ -15,6 +15,8 @@ class VerifyRegisteredUserController extends Controller
                 $route = route('dashboard');
             }elseif($request->user()->role==Role::PARENT->value){
                 $route = route('parent_dashboard');
+            }elseif($request->user()->role==Role::SCHOOL->value){
+                $route = route('school_dashboard');
             }
             return redirect()->intended($route)->with('success_status', 'Oops! you are already a verified user.');
         }
@@ -27,6 +29,8 @@ class VerifyRegisteredUserController extends Controller
                 $route = route('dashboard');
             }elseif($request->user()->role==Role::PARENT->value){
                 $route = route('parent_dashboard');
+            }elseif($request->user()->role==Role::SCHOOL->value){
+                $route = route('school_dashboard');
             }
             return redirect()->intended($route)->with('success_status', 'Oops! you are already a verified user.');
         }
@@ -39,6 +43,8 @@ class VerifyRegisteredUserController extends Controller
             $route = route('dashboard');
         }elseif($request->user()->role==Role::PARENT->value){
             $route = route('parent_dashboard');
+        }elseif($request->user()->role==Role::SCHOOL->value){
+            $route = route('school_dashboard');
         }
         if($request->user()->hasVerifiedEmail()){
             return redirect()->intended($route)->with('success_status', 'Oops! you are already a verified user.');

@@ -1,4 +1,4 @@
-@extends('layouts.parent_dashboard')
+@extends('layouts.school_dashboard')
 
 
 @section('content')
@@ -6,7 +6,7 @@
 <div class="page-content">
     <div class="container-fluid">
 
-        @include('includes.breadcrumb', ['page'=>'Dashboard', 'page_link'=>route('parent_dashboard'), 'list'=>['COTTON CULTURE']])
+        @include('includes.breadcrumb', ['page'=>'Dashboard', 'page_link'=>route('school_dashboard'), 'list'=>['COTTON CULTURE']])
 
         <div class="row project-wrapper">
             <div class="col-xxl-12">
@@ -155,7 +155,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <a href="{{route('parent_product_detail', $item->id)}}" class="btn btn-soft-danger d-block">Buy Now</a>
+                                                    <a href="{{route('school_product_detail', $item->id)}}" class="btn btn-soft-danger d-block">Buy Now</a>
 
                                                 </div>
                                             </div>
@@ -187,7 +187,7 @@
                                 <h4 class="mb-3">Oops, No kid found for your account!</h4>
                                 <p class="text-muted mb-4"> Please add kid in order to see products from their respective school.</p>
                                 <div class="hstack gap-2 justify-content-center">
-                                    <a href="{{route('kid.paginate.get')}}" class="btn btn-danger">Add Kid</a>
+                                    <a href="{{route('school_kid.paginate.get')}}" class="btn btn-danger">Add Kid</a>
                                 </div>
                             </div>
                         </div>
@@ -246,7 +246,7 @@
         }
 
         str = arr.join('&');
-        window.location.replace('{{route('parent_dashboard')}}?'+str)
+        window.location.replace('{{route('school_dashboard')}}?'+str)
     })
 </script>
 @stop

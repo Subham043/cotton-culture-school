@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IsAdmin
+class IsSchool
 {
     /**
      * Handle an incoming request.
@@ -18,15 +18,10 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->role == Role::ADMIN->value) {
+        if (Auth::user() &&  Auth::user()->role == Role::SCHOOL->value) {
             return $next($request);
         }
 
-        if(Auth::user()->role==Role::PARENT->value){
-            $route = route('parent_dashboard');
-        }elseif(Auth::user()->role==Role::SCHOOL->value){
-            $route = route('school_dashboard');
-        }
-        return redirect($route)->with('error_status','You do not have admin access');
+        return redirect(route('parent_dashboard'))->with('error_status','You do not have admin access');
     }
 }
