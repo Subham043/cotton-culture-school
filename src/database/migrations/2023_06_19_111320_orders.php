@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('razorpay_signature', 255)->nullable();
             $table->text('razorpay_order_id')->nullable();
             $table->text('razorpay_payment_id')->nullable();
-            $table->timestamp('placed_at', 0)->default(now())->nullable();
+            $table->timestamp('placed_at', 0)->useCurrent()->nullable();
             $table->timestamp('packed_at', 0)->nullable();
             $table->timestamp('shipped_at', 0)->nullable();
             $table->timestamp('ofd_at', 0)->nullable();

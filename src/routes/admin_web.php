@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Academic\ClassController;
 use App\Http\Controllers\Admin\Academic\SchoolController;
 use App\Http\Controllers\Admin\Academic\SectionController;
 use App\Http\Controllers\Admin\Dashboard\OrderController;
+use App\Http\Controllers\Admin\Dashboard\BannerController;
 use App\Http\Controllers\Admin\Product\CategoryController;
 use App\Http\Controllers\Admin\Product\UnitController;
 use App\Http\Controllers\Admin\Product\ProductController;
@@ -144,6 +145,12 @@ Route::middleware(['auth_admin', 'verified', 'admin'])->group(function () {
             Route::post('/edit/{id}', [ProductSpecificationController::class, 'update', 'as' => 'admin.product_specification.update'])->name('product_specification.update.post');
             Route::get('/delete/{id}', [ProductSpecificationController::class, 'delete', 'as' => 'admin.product_specification.delete'])->name('product_specification.delete.get');
         });
+    });
+
+    Route::prefix('/banner-images')->group(function () {
+        Route::get('/', [BannerController::class, 'index', 'as' => 'admin.banner.view'])->name('banner.paginate.get');
+        Route::post('/create', [BannerController::class, 'store', 'as' => 'admin.banner.store'])->name('banner.create.post');
+        Route::get('/delete/{id}', [BannerController::class, 'delete', 'as' => 'admin.banner.delete'])->name('banner.delete.get');
     });
 
     Route::prefix('/order')->group(function () {

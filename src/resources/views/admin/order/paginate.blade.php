@@ -145,7 +145,7 @@
                                                 <span class="badge bg-success">{{$v->kid->name}}</span><br/>
                                                 @endforeach
                                             </td>
-                                            <td class="customer_name">{{$item->user->name}}<br/>{{$item->user->email}}<br/>{{$item->user->phone}}</td>
+                                            <td class="customer_name">{{$item->user->name}}<br/>{{$item->user->email}}<br/>{{$item->user->phone}}<br/><span class="badge bg-dark">{{$item->user->role}}</span></td>
                                             <td class="date">{{$item->placed_at->diffForHumans()}}</td>
                                             <td>
                                                 <div class="d-flex gap-2">

@@ -41,6 +41,12 @@
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link menu-link {{strpos(url()->current(),route('banner.paginate.get')) !== false ? 'active' : ''}}" href="{{route('banner.paginate.get')}}">
+                                    <i class="ri-image-line"></i> <span data-key="t-widgets">Banner</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link menu-link {{strpos(url()->current(),route('class.paginate.get')) !== false ? 'active' : ''}}" href="{{route('class.paginate.get')}}">
                                     <i class="ri-community-line"></i> <span data-key="t-widgets">Class</span>
                                 </a>
