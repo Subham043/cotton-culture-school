@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\School\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Cart;
 use App\Models\Kid;
 use App\Models\Product;
@@ -121,6 +122,7 @@ class DashboardController extends Controller
 
         return view('school.dashboard.index')->with([
             'data' => $data,
+            'banners' => Banner::latest()->get(),
             'cart' => $cart,
             'cart_total' => $cart_total,
             'kids' => $kids,

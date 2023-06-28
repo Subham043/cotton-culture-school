@@ -10,6 +10,8 @@
 
         <div class="row project-wrapper">
             <div class="col-xxl-12">
+
+                @if(count($banners)>0)
                     <div class="row">
 
                         <div class="col-xl-12 col-lg-12">
@@ -18,20 +20,16 @@
                                     <!-- Swiper -->
                                     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                                         <div class="carousel-indicators">
-                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                            @foreach($banners as $k=>$v)
+                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$k}}" @if($k==0) class="active" aria-current="true" @endif aria-label="Slide {{$k+1}}"></button>
+                                            @endforeach
                                         </div>
                                         <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <img src="https://placehold.co/600x200" class="d-block w-100" alt="...">
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img src="https://placehold.co/600x200" class="d-block w-100" alt="...">
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img src="https://placehold.co/600x200" class="d-block w-100" alt="...">
-                                        </div>
+                                            @foreach($banners as $k=>$v)
+                                            <div class="carousel-item {{$k==0 ? 'active' : ''}}">
+                                                <img src="{{$v->image_link}}" class="d-block w-100" alt="...">
+                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div><!-- end card-body -->
@@ -40,6 +38,8 @@
 
 
                     </div>
+                @endif
+
                     @if(count($kids)>0)
                         <div class="row">
                             <div class="col-xl-3 col-lg-4">
